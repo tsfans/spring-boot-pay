@@ -42,6 +42,8 @@ public class UnionpayConfig implements Serializable{
 	
 	private String txnTime;
 	
+	private String queryId;
+	
 	@Value("${payment.unionpay.currencyCode}")
 	private String currencyCode;
 	
@@ -63,10 +65,18 @@ public class UnionpayConfig implements Serializable{
         + signMethod + ", txnType=" + txnType + ", txnSubType=" + txnSubType + ", bizType="
         + bizType + ", channelType=" + channelType + ", merId=" + merId + ", accessType="
         + accessType + ", orderId=" + orderId + ", txnTime=" + txnTime + ", currencyCode="
-        + currencyCode + ", txnAmt=" + txnAmt + ", frontUrl=" + frontUrl + ", backUrl=" + backUrl
+        + currencyCode + ", txnAmt=" + txnAmt + ",queryId="+queryId+", frontUrl=" + frontUrl + ", backUrl=" + backUrl
         + ", reqReserved=" + reqReserved + "]";
   }
 
+
+  public String getQueryId() {
+    return queryId;
+  }
+
+  public void setQueryId(String queryId) {
+    this.queryId = queryId;
+  }
 
   public String getFrontUrl() {
     return frontUrl;
