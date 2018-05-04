@@ -138,6 +138,10 @@ public class SDKConstants {
 	/******************************************** 5.0报文接口定义 ********************************************/
 	/** 版本号. */
 	public static final String param_version = "version";
+	/** 签名方法 目前只支持01-RSA方式证书加密 */
+	public static final String param_signMethod = "signMethod";
+	/** 渠道类型，07-PC，08-手机 */
+	public static final String param_channelType = "channelType";
 	/** 证书ID. */
 	public static final String param_certId = "certId";
 	/** 签名. */

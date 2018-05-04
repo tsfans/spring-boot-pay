@@ -22,6 +22,8 @@ import cn.hl.pay.util.unionpay.sdk.AcpService;
 import cn.hl.pay.util.unionpay.sdk.LogUtil;
 import cn.hl.pay.util.unionpay.sdk.SDKConstants;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "unionpay")
@@ -63,13 +65,30 @@ public class UnionPayController {
   }
   
   @ApiOperation(value = "query by query id")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name="orderId",required=true,dataType="String"),
+    @ApiImplicitParam(name="txnTime",required=true,dataType="String"),
+    @ApiImplicitParam(name="queryId",required=true,dataType="String"),
+  })
   @RequestMapping(value = "/query", method = RequestMethod.POST)
   public @ResponseBody ServiceResponse<String> query(HttpServletRequest request){
     return payService.query(request);
   }
   
+  @ApiOperation(value = "ConsumeUndo")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name="orderId",required=true,dataType="String"),
+    @ApiImplicitParam(name="txnTime",required=true,dataType="String"),
+    @ApiImplicitParam(name="txnAmt",required=true,dataType="String"),
+    @ApiImplicitParam(name="queryId",required=true,dataType="String"),
+  })
+  @RequestMapping(value = "/consumeUndo", method = RequestMethod.POST)
+  public @ResponseBody ServiceResponse<String> consumeUndo(HttpServletRequest request){
+    return payService.consumeUndo(request);
+  }
+  
   @ApiOperation(value = "front receive unionpay message")
-  @RequestMapping(value = "/front")
+  @RequestMapping(value = "/front", method = RequestMethod.POST)
   public @ResponseBody ServiceResponse<String> front(HttpServletRequest request) {
     String encoding = request.getParameter(SDKConstants.param_encoding);
     Map<String,String> params = getAllRequestParams(request);
