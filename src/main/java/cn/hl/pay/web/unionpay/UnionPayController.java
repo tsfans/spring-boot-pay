@@ -62,8 +62,8 @@ public class UnionPayController {
     return mv;
   }
   
-  @ApiOperation(value = "query by order id")
-  @RequestMapping(value = "/query")
+  @ApiOperation(value = "query by query id")
+  @RequestMapping(value = "/query", method = RequestMethod.POST)
   public @ResponseBody ServiceResponse<String> query(HttpServletRequest request){
     return payService.query(request);
   }
@@ -83,7 +83,7 @@ public class UnionPayController {
   }
 
   @ApiOperation(value = "back receive unionpay message")
-  @RequestMapping(value = "/back")
+  @RequestMapping(value = "/back", method = RequestMethod.POST)
   public @ResponseBody ServiceResponse<String> back(HttpServletRequest request) {
     String encoding = request.getParameter(SDKConstants.param_encoding);
     Map<String,String> params = getAllRequestParams(request);

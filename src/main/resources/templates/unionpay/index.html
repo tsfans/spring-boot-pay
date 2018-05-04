@@ -18,7 +18,7 @@
 			<h2 id="tab4" name="tab">退 款 查 询</h2>
 			<h2 id="tab5" name="tab">交 易 关 闭</h2>
 		</div>
-		<form name=alipayment action=pcpay method=post
+		<form name=unionpay action=mobilepay method=post
 			target="_blank">
 			<div id="body1" class="show" name="divcontent">
 				<dl class="content">
@@ -58,7 +58,17 @@
 				<dl class="content">
 					<dt>交易流水号 ：</dt>
 					<dd>
-						<input id="WIDTQout_trade_no" name="queryId" />
+						<input id="queryId" name="queryId" />
+					</dd>
+					<hr class="one_line">
+					<dt>商品订单号 ：</dt>
+					<dd>
+						<input id="orderId" name="orderId" />
+					</dd>
+					<hr class="one_line">
+					<dt>订单发送时间 ：</dt>
+					<dd>
+						<input id="txnTime" name="txnTime" />
 					</dd>
 					<hr class="one_line">
 					<dt>支付宝交易号 ：</dt>

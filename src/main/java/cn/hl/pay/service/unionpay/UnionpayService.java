@@ -49,6 +49,8 @@ public class UnionpayService {
 
   public ServiceResponse<String> query(HttpServletRequest request) {
     String queryId = request.getParameter("queryId");
+    String orderId = request.getParameter("orderId");
+    String txnTime = request.getParameter("txnTime");
     Map<String, String> data = new HashMap<String, String>();
     
     /***银联全渠道系统，产品参数，除了encoding自行选择外其他不需修改***/
@@ -63,6 +65,9 @@ public class UnionpayService {
     data.put("merId", unionpayConfig.getMerId());                  //商户号码，请改成自己申请的商户号或者open上注册得来的777商户号测试
     data.put("accessType", unionpayConfig.getAccessType());                           //接入类型，商户接入固定填0，不需修改
     data.put("queryId", queryId);
+    data.put("orderId", orderId);
+    data.put("txnTime", txnTime);
+    LogUtil.writeLog("request data : "+ data);
     Map<String,String> reqData = AcpService.sign(data, unionpayConfig.getEncoding());
     String queryUrl = SDKConfig.getConfig().getSingleQueryUrl();
     Map<String,String> rspData = AcpService.post(reqData, queryUrl, unionpayConfig.getEncoding());

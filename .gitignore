@@ -32,6 +32,10 @@ hs_err_pid*
 #*.xsl
 #*.xlsx
 #*.pdf
+
+#macbook
+*.DS_Store
+
 logs/
 target/
 Src/main/resources/assets/
