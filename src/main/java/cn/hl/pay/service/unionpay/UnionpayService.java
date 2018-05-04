@@ -27,6 +27,9 @@ public class UnionpayService {
 	@Autowired
 	private UnionpayConfig unionpayConfig;
 	
+	@Autowired
+    private SDKConfig sdkConfig;
+	
 	@SuppressWarnings("unchecked")
 	public String getForm(Order order) {
 		//渠道类型，这个字段区分B2C网关支付和手机wap支付；07：PC,平板  08：手机
@@ -42,7 +45,7 @@ public class UnionpayService {
 		Map<String,String> requestData = JSON.parseObject(JSON.toJSONString(unionpayConfig),Map.class);
 		LogUtil.writeLog("unionpayConfig : "+unionpayConfig);
 		Map<String,String> submitData = AcpService.sign(requestData, unionpayConfig.getEncoding());
-		String requestFrontUrl = SDKConfig.getConfig().getFrontRequestUrl();
+		String requestFrontUrl = sdkConfig.getFrontRequestUrl();
 		String form = AcpService.createAutoFormHtml(requestFrontUrl, submitData, unionpayConfig.getEncoding());
 		return form;
 	}
@@ -69,7 +72,7 @@ public class UnionpayService {
     data.put("txnTime", txnTime);
     LogUtil.writeLog("request data : "+ data);
     Map<String,String> reqData = AcpService.sign(data, unionpayConfig.getEncoding());
-    String queryUrl = SDKConfig.getConfig().getSingleQueryUrl();
+    String queryUrl = sdkConfig.getSingleQueryUrl();
     Map<String,String> rspData = AcpService.post(reqData, queryUrl, unionpayConfig.getEncoding());
     if(!rspData.isEmpty()) {
       String rspMsg = JSON.toJSONString(rspData);

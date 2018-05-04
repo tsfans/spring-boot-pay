@@ -1,5 +1,8 @@
 server:
-  port: 8080
+  port: 8001
 logging:
-  file: /mnt/logs/payment.log
-swagger2.enable: false
+  file: /data/wwwroot/spring-boot-payment/payment.log
+spring:
+  thymeleaf:
+    cache: true
+    mode: HTML

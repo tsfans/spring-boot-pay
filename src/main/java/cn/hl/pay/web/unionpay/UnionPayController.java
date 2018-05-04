@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "unionpay")
 @Controller
-@RequestMapping("/unionpay")
+@RequestMapping("/pay/unionpay")
 public class UnionPayController {
 
   @Autowired

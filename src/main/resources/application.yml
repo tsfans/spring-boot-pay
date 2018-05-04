@@ -2,10 +2,7 @@ spring:
   application:
     name: spring-boot-payment
   profiles:
-    active: dev
-  thymeleaf:
-    cache: false
-    mode: HTML
+    active: dev,unionpay-dev
 
 # Http Connection Pool
 httpClient.connection.pool.size: 10
@@ -15,25 +12,3 @@ httpClientFactory:
   read:
     timeout: 80000
 
-# Payment Config
-#payment:
-#  unionpay:
-#    # 字符集编码，可以使用UTF-8,GBK两种方式
-#    encoding: UTF-8
-#    # 版本号，全渠道默认值
-#    version: 5.0.1
-#    # 签名方法，只支持 01：RSA方式证书加密
-#    signMethod: 01
-#    # 交易类型 ，01：消费
-#    txnType: 01
-#    # 交易子类型， 01：自助消费
-#    txnSubType: 01
-#    # 业务类型，B2C网关支付，手机wap支付
-#    bizType: 000201
-#    # 商户号
-#    merId: 777290058159134
-#    # 接入类型，0：直连商户
-#    accessType: 0
-#    # 交易币种(境内商户一般是156 人民币)
-#    currencyCode: 156
-    

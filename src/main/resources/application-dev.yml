@@ -1,3 +1,6 @@
 server:
   port: 8080
-swagger2.enable: true
+spring:
+  thymeleaf:
+    cache: false
+    mode: HTML

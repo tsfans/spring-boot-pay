@@ -41,11 +41,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import static cn.hl.pay.util.unionpay.sdk.SDKUtil.isEmpty;
 
+@Component
 public class CertUtil {
+  
+    @Autowired
+    private SDKConfig sdkConfig;
+    
+    private static CertUtil certUtil;
+  
 	/** 证书容器. */
 	private static KeyStore keyStore = null;
 	/** 密码加密证书 */
@@ -64,9 +75,9 @@ public class CertUtil {
 	/** 基于Map存储多商户RSA私钥 */
 	private final static Map<String, KeyStore> certKeyStoreMap = new ConcurrentHashMap<String, KeyStore>();
 	
-	static {
-		init();
-	}
+//	static {
+//		init();
+//	}
 
 	/**
 	 * 添加签名，验签，加密算法提供者
@@ -83,12 +94,19 @@ public class CertUtil {
 		printSysInfo();
 	}
 	
+	@PostConstruct
+	public void initM() {
+	  certUtil = this;
+	  certUtil.sdkConfig = this.sdkConfig;
+	  init();
+	}
+	
 	/**
 	 * 初始化所有证书.
 	 */
 	public static void init() {
 		addProvider();
-		if (SDKConstants.TRUE_STRING.equals(SDKConfig.getConfig()
+		if (SDKConstants.TRUE_STRING.equals(certUtil.sdkConfig
 				.getSingleMode())) {
 			// 单证书模式,初始化配置文件中的签名证书
 			initSignCert();
@@ -106,9 +124,8 @@ public class CertUtil {
 			keyStore = null;
 		}
 		try {
-			keyStore = getKeyInfo(SDKConfig.getConfig().getSignCertPath(),
-					SDKConfig.getConfig().getSignCertPwd(), SDKConfig
-							.getConfig().getSignCertType());
+			keyStore = getKeyInfo(certUtil.sdkConfig.getSignCertPath(),
+			    certUtil.sdkConfig.getSignCertPwd(), certUtil.sdkConfig.getSignCertType());
 			LogUtil.writeLog("InitSignCert Successful. CertId=["
 					+ getSignCertId() + "]");
 		} catch (IOException e) {
@@ -160,9 +177,9 @@ public class CertUtil {
 	 * 加载密码加密证书 目前支持有两种加密
 	 */
 	private static void initEncryptCert() {
-		LogUtil.writeLog("加载敏感信息加密证书==>"+SDKConfig.getConfig().getEncryptCertPath());
-		if (!isEmpty(SDKConfig.getConfig().getEncryptCertPath())) {
-			encryptCert = initCert(SDKConfig.getConfig().getEncryptCertPath());
+		LogUtil.writeLog("加载敏感信息加密证书==>"+certUtil.sdkConfig.getEncryptCertPath());
+		if (!isEmpty(certUtil.sdkConfig.getEncryptCertPath())) {
+			encryptCert = initCert(certUtil.sdkConfig.getEncryptCertPath());
 			LogUtil.writeLog("LoadEncryptCert Successful");
 		} else {
 			LogUtil.writeLog("WARN: acpsdk.encryptCert.path is empty");
@@ -180,10 +197,10 @@ public class CertUtil {
 	 * 加载磁道公钥
 	 */
 	private static void initTrackKey() {
-		if (!isEmpty(SDKConfig.getConfig().getEncryptTrackKeyModulus())
-				&& !isEmpty(SDKConfig.getConfig().getEncryptTrackKeyExponent())) {
-			encryptTrackKey = SecureUtil.getPublicKey(SDKConfig.getConfig().getEncryptTrackKeyModulus(), 
-					SDKConfig.getConfig().getEncryptTrackKeyExponent());
+		if (!isEmpty(certUtil.sdkConfig.getEncryptTrackKeyModulus())
+				&& !isEmpty(certUtil.sdkConfig.getEncryptTrackKeyExponent())) {
+			encryptTrackKey = SecureUtil.getPublicKey(certUtil.sdkConfig.getEncryptTrackKeyModulus(), 
+			    certUtil.sdkConfig.getEncryptTrackKeyExponent());
 			LogUtil.writeLog("LoadEncryptTrackKey Successful");
 		} else {
 			LogUtil.writeLog("WARN: acpsdk.encryptTrackKey.modulus or acpsdk.encryptTrackKey.exponent is empty");
@@ -229,7 +246,7 @@ public class CertUtil {
 	 */
 	private static void initValidateCertFromDir() {
 		certMap.clear();
-		String dir = SDKConfig.getConfig().getValidateCertDir();
+		String dir = certUtil.sdkConfig.getValidateCertDir();
 		LogUtil.writeLog("加载验证签名证书目录==>" + dir);
 		if (isEmpty(dir)) {
 			LogUtil.writeLog("ERROR: acpsdk.validateCert.dir is empty");
@@ -283,7 +300,7 @@ public class CertUtil {
 				keyAlias = aliasenum.nextElement();
 			}
 			PrivateKey privateKey = (PrivateKey) keyStore.getKey(keyAlias,
-					SDKConfig.getConfig().getSignCertPwd().toCharArray());
+			    certUtil.sdkConfig.getSignCertPwd().toCharArray());
 			return privateKey;
 		} catch (KeyStoreException e) {
 			LogUtil.writeErrorLog("getSignCertPrivateKey Error", e);
@@ -364,7 +381,7 @@ public class CertUtil {
 	 */
 	public static PublicKey getEncryptCertPublicKey() {
 		if (null == encryptCert) {
-			String path = SDKConfig.getConfig().getEncryptCertPath();
+			String path = certUtil.sdkConfig.getEncryptCertPath();
 			if (!isEmpty(path)) {
 				encryptCert = initCert(path);
 				return encryptCert.getPublicKey();
@@ -471,7 +488,7 @@ public class CertUtil {
 	 */
 	public static String getEncryptCertId() {
 		if (null == encryptCert) {
-			String path = SDKConfig.getConfig().getEncryptCertPath();
+			String path = certUtil.sdkConfig.getEncryptCertPath();
 			if (!isEmpty(path)) {
 				encryptCert = initCert(path);
 				return encryptCert.getSerialNumber().toString();

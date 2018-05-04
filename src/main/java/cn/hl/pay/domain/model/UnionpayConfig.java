@@ -1,13 +1,10 @@
 package cn.hl.pay.domain.model;
 
 import java.io.Serializable;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource("classpath:acp_sdk.properties")
 public class UnionpayConfig implements Serializable{
 
 	private static final long serialVersionUID = 1L;
