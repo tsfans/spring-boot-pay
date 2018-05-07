@@ -3,10 +3,14 @@ package cn.hl.pay.constants.unionpay;
 public interface UnionpayConstants {
 
   /****** txnType ********/
+  String txnType_default = "00";
   String txnType_consume = "01";
-  String txnType_query = "00";
+  String txnType_preAuth = "02";
+  String txnType_authFinish = "03";
   String txnType_refund = "04";
   String txnType_consumeUndo = "31";
+  String txnType_authUndo = "32";
+  String txnType_authFinishUndo = "33";
   
   /****** txnSubType ********/
   String txnSubType_default = "00";

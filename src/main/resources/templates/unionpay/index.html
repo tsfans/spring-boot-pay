@@ -13,18 +13,19 @@
 	<div id="main">
 		<div id="tabhead" class="tab-head">
 			<h2 id="tab1" class="selected" name="tab">付 款</h2>
-			<h2 id="tab2" name="tab">交 易 查 询</h2>
-			<h2 id="tab3" name="tab">退 款</h2>
-			<h2 id="tab4" name="tab">退 款 查 询</h2>
-			<h2 id="tab5" name="tab">交 易 关 闭</h2>
+			<h2 id="tab2" name="tab">预授权</h2>
+			<h2 id="tab3" name="tab">交 易 查 询</h2>
+			<h2 id="tab4" name="tab">退 款</h2>
+			<h2 id="tab5" name="tab">退 款 查 询</h2>
+			<h2 id="tab6" name="tab">交 易 关 闭</h2>
 		</div>
-		<form name=unionpay action=pcpay method=post
+		<form name=consume action=pc/pay method=post
 			target="_blank">
 			<div id="body1" class="show" name="divcontent">
 				<dl class="content">
 					<dt>商户订单号 ：</dt>
 					<dd>
-						<input id="WIDout_trade_no" name="outTradeNo" />
+						<input id="WIDout_trade_no" name="orderId" />
 					</dd>
 					<hr class="one_line">
 					<dt>订单名称 ：</dt>
@@ -34,7 +35,7 @@
 					<hr class="one_line">
 					<dt>付款金额 ：</dt>
 					<dd>
-						<input id="WIDtotal_amount" name="totalFee" />
+						<input id="WIDtotal_amount" name="txnAmt" />
 					</dd>
 					<hr class="one_line">
 					<dt>商品描述：</dt>
@@ -52,7 +53,41 @@
 				</dl>
 			</div>
 		</form>
-		<form name=tradequery action=query method=post
+		<form name=preAuth action=pc/preAuth method=post
+			target="_blank">
+			<div id="body1" class="tab-content" name="divcontent">
+				<dl class="content">
+					<dt>商户订单号 ：</dt>
+					<dd>
+						<input id="WIDout_trade_no" name="orderId" />
+					</dd>
+					<hr class="one_line">
+					<dt>订单名称 ：</dt>
+					<dd>
+						<input id="WIDsubject" name="subject" />
+					</dd>
+					<hr class="one_line">
+					<dt>付款金额 ：</dt>
+					<dd>
+						<input id="WIDtotal_amount" name="txnAmt" />
+					</dd>
+					<hr class="one_line">
+					<dt>商品描述：</dt>
+					<dd>
+						<input id="WIDbody" name="body" />
+					</dd>
+					<hr class="one_line">
+					<dt></dt>
+					<dd id="btn-dd">
+						<span class="new-btn-login-sp">
+							<button class="new-btn-login" type="submit"
+								style="text-align: center;">付 款</button>
+						</span> <span class="note-help">如果您点击“付款”按钮，即表示您同意该次的执行操作。</span>
+					</dd>
+				</dl>
+			</div>
+		</form>
+		<form name=tradequery action=pc/query method=post
 			target="_blank">
 			<div id="body2" class="tab-content" name="divcontent">
 				<dl class="content">

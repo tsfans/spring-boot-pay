@@ -11,12 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.fastjson.JSON;
-
-import cn.hl.pay.constants.unionpay.PayWay;
+import cn.hl.pay.constants.unionpay.UnionpayConstants;
 import cn.hl.pay.domain.dto.ServiceResponse;
-import cn.hl.pay.domain.model.Order;
 import cn.hl.pay.service.unionpay.UnionpayService;
 import cn.hl.pay.util.unionpay.sdk.AcpService;
 import cn.hl.pay.util.unionpay.sdk.LogUtil;
@@ -41,25 +38,19 @@ public class UnionPayController {
   }
 
   @ApiOperation(value = "PC pay")
-  @RequestMapping(value = "/pcpay", method = RequestMethod.POST)
-  public ModelAndView pcpay(Order order) {
-    LogUtil.writeLog("order:" + order);
+  @RequestMapping(value = "/pc/pay", method = RequestMethod.POST)
+  public ModelAndView pcpay(HttpServletRequest request) {
     ModelAndView mv = new ModelAndView("unionpay/pay");
-    order.setPayWay(PayWay.PC.code());
-    String form = payService.getForm(order);
-    LogUtil.writeLog("form:" + form);
+    String form = payService.consume(request,UnionpayConstants.channelType_pc);
     mv.addObject("form", form);
     return mv;
   }
   
   @ApiOperation(value = "mobile pay")
-  @RequestMapping(value = "/mobilepay", method = RequestMethod.POST)
-  public ModelAndView mobilepay(Order order) {
-    LogUtil.writeLog("order:" + order);
+  @RequestMapping(value = "/mobile/pay", method = RequestMethod.POST)
+  public ModelAndView mobilepay(HttpServletRequest request) {
     ModelAndView mv = new ModelAndView("unionpay/pay");
-    order.setPayWay(PayWay.MOBILE.code());
-    String form = payService.getForm(order);
-    LogUtil.writeLog("form:" + form);
+    String form = payService.consume(request,UnionpayConstants.channelType_mobile);
     mv.addObject("form", form);
     return mv;
   }
@@ -70,7 +61,7 @@ public class UnionPayController {
     @ApiImplicitParam(name="txnTime",required=true,dataType="String"),
     @ApiImplicitParam(name="queryId",required=true,dataType="String"),
   })
-  @RequestMapping(value = "/query", method = RequestMethod.POST)
+  @RequestMapping(value = "/pc/query", method = RequestMethod.POST)
   public @ResponseBody ServiceResponse<String> query(HttpServletRequest request){
     return payService.query(request);
   }
@@ -78,13 +69,69 @@ public class UnionPayController {
   @ApiOperation(value = "ConsumeUndo")
   @ApiImplicitParams({
     @ApiImplicitParam(name="orderId",required=true,dataType="String"),
-    @ApiImplicitParam(name="txnTime",required=true,dataType="String"),
     @ApiImplicitParam(name="txnAmt",required=true,dataType="String"),
     @ApiImplicitParam(name="queryId",required=true,dataType="String"),
   })
-  @RequestMapping(value = "/consumeUndo", method = RequestMethod.POST)
+  @RequestMapping(value = "/pc/consumeUndo", method = RequestMethod.POST)
   public @ResponseBody ServiceResponse<String> consumeUndo(HttpServletRequest request){
     return payService.consumeUndo(request);
+  }
+  
+  @ApiOperation(value = "Redfund")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name="orderId",required=true,dataType="String"),
+    @ApiImplicitParam(name="txnAmt",required=true,dataType="String"),
+    @ApiImplicitParam(name="queryId",required=true,dataType="String"),
+  })
+  @RequestMapping(value = "/pc/refund", method = RequestMethod.POST)
+  public @ResponseBody ServiceResponse<String> refund(HttpServletRequest request){
+    return payService.refund(request);
+  }
+  
+  @ApiOperation(value = "PreAuth")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name="orderId",required=true,dataType="String"),
+    @ApiImplicitParam(name="txnAmt",required=true,dataType="String")
+  })
+  @RequestMapping(value = "/pc/preAuth", method = RequestMethod.POST)
+  public ModelAndView preAuth(HttpServletRequest request) {
+    ModelAndView mv = new ModelAndView("unionpay/pay");
+    String form = payService.preAuth(request,UnionpayConstants.channelType_pc);
+    mv.addObject("form", form);
+    return mv;
+  }
+  
+  @ApiOperation(value = "AuthFinish")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name="orderId",required=true,dataType="String"),
+    @ApiImplicitParam(name="queryId",required=true,dataType="String"),
+    @ApiImplicitParam(name="txnAmt",required=true,dataType="String")
+  })
+  @RequestMapping(value = "/pc/authFinish", method = RequestMethod.POST)
+  public @ResponseBody ServiceResponse<String> authFinish(HttpServletRequest request) {
+    return payService.authFinish(request);
+  }
+  
+  @ApiOperation(value = "AuthUndo")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name="orderId",required=true,dataType="String"),
+    @ApiImplicitParam(name="queryId",required=true,dataType="String"),
+    @ApiImplicitParam(name="txnAmt",required=true,dataType="String")
+  })
+  @RequestMapping(value = "/pc/authUndo", method = RequestMethod.POST)
+  public @ResponseBody ServiceResponse<String> authUndo(HttpServletRequest request) {
+    return payService.authUndo(request);
+  }
+  
+  @ApiOperation(value = "AuthFinishUndo")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name="orderId",required=true,dataType="String"),
+    @ApiImplicitParam(name="queryId",required=true,dataType="String"),
+    @ApiImplicitParam(name="txnAmt",required=true,dataType="String")
+  })
+  @RequestMapping(value = "/pc/authFinishUndo", method = RequestMethod.POST)
+  public @ResponseBody ServiceResponse<String> authFinishUndo(HttpServletRequest request) {
+    return payService.authFinishUndo(request);
   }
   
   @ApiOperation(value = "front receive unionpay message")
