@@ -11,10 +11,11 @@ public interface UnionpayConstants {
   String txnType_consumeUndo = "31";
   String txnType_authUndo = "32";
   String txnType_authFinishUndo = "33";
+  String txnType_fileTransfer = "76";
   
   /****** txnSubType ********/
   String txnSubType_default = "00";
-  String txnSubType_selfConsume = "01";
+  String txnSubType_01 = "01";
   
   /****** bizType ********/
   String bizType_default = "000000";
@@ -26,4 +27,7 @@ public interface UnionpayConstants {
   
   /****** currencyCode ********/
   String currencyCode_rmb = "156";
+  
+  /****** fileType *******/
+  String fileType_default = "00";
 }

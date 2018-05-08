@@ -12,12 +12,14 @@
 	</header>
 	<div id="main">
 		<div id="tabhead" class="tab-head">
-			<h2 id="tab1" class="selected" name="tab">付 款</h2>
-			<h2 id="tab2" name="tab">预授权</h2>
-			<h2 id="tab3" name="tab">交 易 查 询</h2>
-			<h2 id="tab4" name="tab">退 款</h2>
-			<h2 id="tab5" name="tab">退 款 查 询</h2>
-			<h2 id="tab6" name="tab">交 易 关 闭</h2>
+			<h2 id="tab1" class="selected" name="tab">PC 付 款</h2>
+			<h2 id="tab2" name="tab">PC 预授权</h2>
+			<h2 id="tab3" name="tab">Mobile 付 款</h2>
+			<h2 id="tab4" name="tab">Mobile 预授权</h2>
+			<h2 id="tab5" name="tab">交 易 查 询</h2>
+			<h2 id="tab6" name="tab">退 款</h2>
+			<h2 id="tab7" name="tab">退 款 查 询</h2>
+			<h2 id="tab8" name="tab">交 易 关 闭</h2>
 		</div>
 		<form name=consume action=pc/pay method=post
 			target="_blank">
@@ -55,7 +57,75 @@
 		</form>
 		<form name=preAuth action=pc/preAuth method=post
 			target="_blank">
-			<div id="body1" class="tab-content" name="divcontent">
+			<div id="body2" class="tab-content" name="divcontent">
+				<dl class="content">
+					<dt>商户订单号 ：</dt>
+					<dd>
+						<input id="WIDout_trade_no" name="orderId" />
+					</dd>
+					<hr class="one_line">
+					<dt>订单名称 ：</dt>
+					<dd>
+						<input id="WIDsubject" name="subject" />
+					</dd>
+					<hr class="one_line">
+					<dt>付款金额 ：</dt>
+					<dd>
+						<input id="WIDtotal_amount" name="txnAmt" />
+					</dd>
+					<hr class="one_line">
+					<dt>商品描述：</dt>
+					<dd>
+						<input id="WIDbody" name="body" />
+					</dd>
+					<hr class="one_line">
+					<dt></dt>
+					<dd id="btn-dd">
+						<span class="new-btn-login-sp">
+							<button class="new-btn-login" type="submit"
+								style="text-align: center;">付 款</button>
+						</span> <span class="note-help">如果您点击“付款”按钮，即表示您同意该次的执行操作。</span>
+					</dd>
+				</dl>
+			</div>
+		</form>
+		<form name=consume action=mobile/pay method=post
+			target="_blank">
+			<div id="body3" class="show" name="divcontent">
+				<dl class="content">
+					<dt>商户订单号 ：</dt>
+					<dd>
+						<input id="WIDout_trade_no" name="orderId" />
+					</dd>
+					<hr class="one_line">
+					<dt>订单名称 ：</dt>
+					<dd>
+						<input id="WIDsubject" name="subject" />
+					</dd>
+					<hr class="one_line">
+					<dt>付款金额 ：</dt>
+					<dd>
+						<input id="WIDtotal_amount" name="txnAmt" />
+					</dd>
+					<hr class="one_line">
+					<dt>商品描述：</dt>
+					<dd>
+						<input id="WIDbody" name="body" />
+					</dd>
+					<hr class="one_line">
+					<dt></dt>
+					<dd id="btn-dd">
+						<span class="new-btn-login-sp">
+							<button class="new-btn-login" type="submit"
+								style="text-align: center;">付 款</button>
+						</span> <span class="note-help">如果您点击“付款”按钮，即表示您同意该次的执行操作。</span>
+					</dd>
+				</dl>
+			</div>
+		</form>
+		<form name=preAuth action=mobile/preAuth method=post
+			target="_blank">
+			<div id="body4" class="tab-content" name="divcontent">
 				<dl class="content">
 					<dt>商户订单号 ：</dt>
 					<dd>
@@ -89,7 +159,7 @@
 		</form>
 		<form name=tradequery action=pc/query method=post
 			target="_blank">
-			<div id="body2" class="tab-content" name="divcontent">
+			<div id="body5" class="tab-content" name="divcontent">
 				<dl class="content">
 					<dt>交易流水号 ：</dt>
 					<dd>
@@ -123,7 +193,7 @@
 		</form>
 		<form name=traderefund action=alipay.trade.refund.jsp method=post
 			target="_blank">
-			<div id="body3" class="tab-content" name="divcontent">
+			<div id="body6" class="tab-content" name="divcontent">
 				<dl class="content">
 					<dt>商户订单号 ：</dt>
 					<dd>
@@ -163,7 +233,7 @@
 		<form name=traderefundquery
 			action=alipay.trade.fastpay.refund.query.jsp method=post
 			target="_blank">
-			<div id="body4" class="tab-content" name="divcontent">
+			<div id="body7" class="tab-content" name="divcontent">
 				<dl class="content">
 					<dt>商户订单号 ：</dt>
 					<dd>
@@ -192,7 +262,7 @@
 		</form>
 		<form name=tradeclose action=alipay.trade.close.jsp method=post
 			target="_blank">
-			<div id="body5" class="tab-content" name="divcontent">
+			<div id="body8" class="tab-content" name="divcontent">
 				<dl class="content">
 					<dt>商户订单号 ：</dt>
 					<dd>
